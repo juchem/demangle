@@ -7,11 +7,17 @@ Only works for mangled symbols that follow GCC's ABI, like Clang and GCC
 # Usage
 Symbols to be demangled can be given either to `stdin` or through command-line arguments:
 ```
-$ echo i | ./demangle
+$ echo 'i N3foo3barIJidEEE' | ./demangle
 int
+foo::bar<int, double>
 
-$ ./demangle i
+$ echo -e 'i\nN3foo3barIJidEEE' | ./demangle
 int
+foo::bar<int, double>
+
+$ ./demangle i N3foo3barIJidEEE
+int
+foo::bar<int, double>
 ```
 
 # Requirements
