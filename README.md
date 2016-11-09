@@ -1,6 +1,19 @@
 # demangle
 A C++ name demangling command-line utility
 
+# Limitations
+Only works for mangled symbols that follow GCC's ABI, like Clang and GCC
+
+# Usage
+Symbols to be demangled can be given either to `stdin` or through command-line arguments:
+```
+$ echo i | ./demangle
+int
+
+$ ./demangle i
+int
+```
+
 # Requirements
 GCC or Clang compiler, any version compatible with C++11
 
