@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
   }
 
   if (argc <= 1) {
-    for (std::string s; std::getline(std::cin, s); ) {
+    for (std::string s; std::cin >> s; ) {
       demangle(s.c_str());
     }
   }
