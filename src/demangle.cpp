@@ -6,8 +6,8 @@
 #include <cxxabi.h>
 
 void demangle(char const *symbol) {
-	int status;
-	auto name = abi::__cxa_demangle(symbol, 0, 0, &status);
+  int status;
+  auto name = abi::__cxa_demangle(symbol, 0, 0, &status);
 
   if (status) {
     std::cerr << "error: cannot demangle '" << symbol << '\'' << '\n';
@@ -15,7 +15,7 @@ void demangle(char const *symbol) {
     std::cout << symbol << '\t' << name << std::endl;
   }
 
-	std::free(name);
+  std::free(name);
 }
 
 int main(int argc, char **argv) {
