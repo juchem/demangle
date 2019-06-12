@@ -1,60 +1,74 @@
 # demangle
-A C++ name demangling command-line utility
+A C++ name demangling command-line utility.
 
 # Limitations
-Only works for mangled symbols that follow GCC's ABI, like Clang and GCC
+Only works for mangled symbols that follow the [Itanium C++ ABI](https://itanium-cxx-abi.github.io/cxx-abi/abi.html#mangling), like Clang and GCC.
 
 # Usage
-Symbols to be demangled can be given through `stdin`:
+Symbols to be demangled can be given to `stdin` or as command line arguments.
+
+Default output follows the format `mangled\tdemangled`:
+```sh
+3fooIJiEE	foo<int>
+```
+
+# Examples:
+Symbol passed to `stdin`.
+```sh
+$ echo 'N3foo3barIJidEEE' | demangle
+N3foo3barIJidEEE	foo::bar<int, double>
+```
+
+Symbol passed as command line argument:
+```sh
+$ demangle N3foo3barIJidEEE
+N3foo3barIJidEEE	foo::bar<int, double>
+```
+
+Multiple symbols passed to `stdin`:
 ```sh
 $ echo 'i N3foo3barIJidEEE' | demangle
-int
-foo::bar<int, double>
+i	int
+N3foo3barIJidEEE	foo::bar<int, double>
 ```
 
-Multiple symbols can be passed as multiple lines in `stdin`:
-```sh
-$ echo -e 'i\nN3foo3barIJidEEE' | demangle
-int
-foo::bar<int, double>
-```
-
-Symbols can be passed as command line arguments:
+Multiple symbols passed as command line arguments:
 ```sh
 $ demangle i N3foo3barIJidEEE
-int
-foo::bar<int, double>
+i	int
+N3foo3barIJidEEE	foo::bar<int, double>
 ```
 
-Demangle can be used in mixed text by filtering out error messages:
+Filtering error messages when demangling symbols mixed with other text:
 ```sh
-cat some_log_with_mangled_symbols.txt | demangle 2> /dev/null
+$ echo 'i N3foo3barIJidEEE this_is_not_a_valid_symbol' | demangle 2> /dev/null
+i	int
+N3foo3barIJidEEE	foo::bar<int, double>
 ```
 
-# Requirements
-GCC or Clang compiler, any version compatible with C++11
+# Build requirements
+GCC or Clang compiler, any version compatible with C++11.
 
-# Install
+# Installation instructions
 
 ## Easy mode
 Provided you have `cmake` installed, run `./build.sh install_directory`.
-
-Example:
 ```sh
 ./build.sh /usr/local
 ```
 
 ## `cmake`
+Replace `$INSTALL_DIRECTORY` below with the install directory of your choice.
 ```sh
 cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_DIRECTORY
 make install
 ```
 
-# Build
+# Build instructions
 
 ## `cmake`
 ```sh
-mkdir out
+mkdir out && cd out
 cmake ..
 make
 ```

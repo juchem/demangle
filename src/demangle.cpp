@@ -10,9 +10,9 @@ void demangle(char const *symbol) {
 	auto name = abi::__cxa_demangle(symbol, 0, 0, &status);
 
   if (status) {
-    std::cerr << "!! can't demangle '" << symbol << '\'' << std::endl;
+    std::cerr << "error: cannot demangle '" << symbol << '\'' << '\n';
   } else {
-    std::cout << name << std::endl;
+    std::cout << symbol << '\t' << name << std::endl;
   }
 
 	std::free(name);
@@ -28,6 +28,8 @@ int main(int argc, char **argv) {
       demangle(s.c_str());
     }
   }
+
+  std::cerr.flush();
 
   return 0;
 }
